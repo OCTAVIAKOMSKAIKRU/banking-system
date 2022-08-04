@@ -1,0 +1,224 @@
+# We are going to first creating a per of object-oriented programming classes.
+
+# A "Parent class" containing the users personal details.
+
+# A ""Child class" containing command functions for options like (withdraw , deposit, view_balance)
+
+# The child class will also store the account details and amount(R).
+
+# Parent class
+from cProfile import label
+
+
+def show_details(self):
+    print("Personal Details")
+    print("")
+    print("Name ", self.name)
+    print("Age", self.age)
+    print("Gender ", self.gender)
+
+
+class User:
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+
+# Child class
+class Bank(User):
+    def __init__(self, name, age, gender):
+        super().__init__(name, age, gender)
+        self.amount = None
+        self.balance = 0
+
+    def deposit(self, amount):
+        self.amount = amount
+        self.balance = self.balance + self.amount
+        print("Account balance has been updated : R ", self.balance)
+
+    def withdraw(self, amount):
+        self.amount = amount
+        if self.amount > self.balance:
+            print("Insufficient funds : Balance available : R ", self.balance)
+        else:
+            self.balance = self.balance - self.amount
+            print("Account balance has been updated : R ", self.balance)
+
+    def view_balance(self):
+        self.show_details()
+        print("Account balance : R ", self.balance)
+
+    def show_details(self):
+        pass
+
+
+#imports
+from tkinter import *
+root = Tk()
+#import os
+#from PIL import Image, ImageTk
+
+
+# Main Screen
+root.title('Banking system')
+
+# Functions
+def finish_reg():
+    name = temp_name.get()
+    age = temp_age.get()
+    gender = temp_gender.get()
+    password = temp_password.get()
+    all_accounts = os.listdir.get()
+    print(all_accounts)
+
+    if name == "" or age == "" or gender == "" or password == "":
+        notig.config(fg= "red", text = "ALL FIELDS REQUIRED * ")
+        return
+    for name_check in all_accounts:
+        if name == name_check:
+            notif.config(fg= "red", text = "ALL FIELDS REQUIRED * ")
+            return
+        else:
+            new_file = open(name, "w")
+            new_file.write(name+'\n')
+            new_file.write(password+'\n')
+            new_file.write(gender+'\n')
+            new_file.write(age+'\n')
+            new_file.write('0')
+            new_file.close
+            notif.config(fg= "green", text = "Account verified")
+
+# Variables for our application function
+def application():
+    global root
+    global temp_name
+    global temp_age
+    global temp_gender
+    global temp_password
+    global notif
+    temp_name = StringVar()
+    temp_age = StringVar()
+    temp_gender = StringVar()
+    temp_pasword = StringVar()
+
+    # Application Screen
+    root = Tk(application)
+    appliction_screen = Toplevel(root)
+    application_screen.title('Application')
+
+    # Labels
+    Labels(application_screen, text= 'Please enter your details below to apply', font=('Calibri').grid(row= 0, sticky= N, pady= 10))
+    Labels(application, text= 'Name', font=('Calibri', 12)).grid(row= 1,sticky= W)
+    Labels(application_screen, text= 'Age', font=('Calibri', 12)).grid(row= 2,sticky= W)
+    Labels(application_screen, text= 'Gender', font=('Calibri', 12)).grid(row= 3,sticky= W)
+    Labels(application_screen, text= 'Password', font=('Calibri', 12)).grid(row= 4,sticky= W)
+    notif = Labels(application, font=('Calibri', 12))
+    notif.grid(row= 6, sticky= N, pady= 10)
+
+
+    # Entries
+    Entry(application_screen, textvariable=temp_name).grid(row= 1, column= 0)
+    Entry(application_screen, textvariable=temp_age).grid(row= 2, column= 0)
+    Entry(application_screen, textvariable=temp_gender).grid(row= 3, column= 0)
+    Entry(application_screen, textvariable=temp_password, show= "*").grid(row= 4, column= 0)
+
+
+    # Buttons
+    Button(application_screen, text= "Application", command=finish_reg, font=('Calibri', 12)).grid(row= 5, sticky= N, pady=10)
+
+def login_session():
+   global login_name
+   import os
+   login_name = temp_login_name.get()
+   login_password = temp_login_password.get()
+
+   for name in all_accounts:
+     if name == login_name:
+       file = open(name, "r")
+       file.data = file.read()
+       file_data = file_data.split('\n')
+       password = file-data[1]
+       # Account Dashboard
+       if login_password == password:
+            login_screen.destroy()
+            account_dashboard = Toplevel(root)
+            account_dashboard.title('Dashboard')
+            # Labels
+            Label(account_dasboard, text="Account Dashboard", font=('Calibri', 12)).grid(row=0, sticky=N, pady=10)
+            Label(account_dasboard, text="Welcome" + name, font=('Calibri', 12)).grid(row=1, sticky=N, pady=10)
+            # Buttons
+            Button(account_dasboard, text="Personal details", font=('Calibri', 12), width=30, command=personal_details).grid(row=2, sticky=N, padx=10)
+            Button(account_dasboard, text="Deposit", font=('Calibri', 12), width=30, command=deposit).grid(row=3, sticky=N, padx=10)
+            Button(account_dasboard, text="Withdraw", font=('Calibri', 12), width=30, command=withdraw).grid(row=4, sticky=N, padx=10)
+            Label(account_dashboard).grid(row=5, sticky=N, pady=10)
+
+def deposit():
+    print("Deposit")
+def withdraw():
+    print("Withdraw")
+def personal_details():
+    # Variables
+    file = open(login_name, 'r')
+    file_data = file.read()
+    user_details = file_data.split('\n')
+    details_name = user_details[0]
+    deails_age = user_details[2]
+    details_gender = user_details[3]
+    details_balance = user_details[4]
+    # Personal details screen
+    personal_details_screen = Toplevel(root)
+    personal_details_screen .title('Personal details')
+    # Labels
+    label(personal_details_screen, text="Personal Details", font=('Calibri', 12)).grid(row=0, sticky=N, pady=10)
+    label(personal_details_screen, text="Name : " + details_name, font=('Calibri', 12)).grid(row=1, sticky=W)
+    label(personal_details_screen, text="Age : " + details_age, font=('Calibri', 12)).grid(row=2, sticky=W)
+    label(personal_details_screen, text="Gender : " + details_gender, font=('Calibri', 12)).grid(row=3, sticky=W)
+    label(personal_details_screen, text="Balance :R " + details_balance, font=('Calibri', 12)).grid(row=4, sticky=W)
+
+def login():
+    # Variables
+    
+    global temp_login_name
+    global temp_login_password
+    global login_notif
+    global login_screen
+    temp_login_name = StringVar()
+    temp_login_password = StringVar()
+    
+    # Login Screen
+    login_screen = Toplevel(root)
+    login_screen.title('Login')
+    
+    # Labels
+    Label(login_screen, text=" Login to your account ", font=('Calibri', 12)).grid(row=0, sticky=N, pady=10)
+    Label(login_screen, text="Username", font=('Calibri', 12)).grid(row=1, sticky=N, pady=10)
+    Label(login_screen, text="Password", font=('Calibri', 12)).grid(row=2, sticky=N, pady=10)
+    login_notif = Label(login_screen, font=('Calibri', 12))
+    login_notif.grid(row=4, sticky=N)
+    
+    # Entry
+    Entry(login_screen, textvariable=temp_login_name).grid(row=1, column=1, padx=5)
+    Entry(login_screen, textvariable=temp_login_password).grid(row=2, column=1, padx=5)
+
+    # Button
+    Button(login_screen, text="Login", command=login_session, width=20, font=('Calibri', 12)).grid(row=3, sticky=W, pady=10,padx=10)
+
+# Image Import
+#my_img = Image.PhotoImage(Image.open("secure.png"))
+#label = Label(image=my_img)
+#label.pack()
+
+
+# Labels
+Label(root, text="Banking Application", font=('Calibri',14)).grid(row= 0, sticky= N, pady= 10)
+Label(root, text="Transparency", font=('Calibri', 12)).grid(row= 2, sticky= N)          
+#Label(root, image= img).grid(row= 2, sticky= N, pady= 15)
+
+
+# Buttons
+Button(root).grid()
+Button(root, text= "APPLY", font=('Calibri', 12), width= 20, command=application).grid(row= 3, sticky= N)
+Button(root, text= "LOGIN", font=('Calibri', 12), width= 20, command=login).grid(row= 4, sticky= N)
+
+root.mainloop()
